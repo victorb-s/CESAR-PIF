@@ -1,7 +1,9 @@
 # 📒 Documentação do Projeto
 
 <p align="justify">
-  Projeto em desenvolvimento 🚧
+  
+  Projeto em desenvolvimento, utilizando do [CLI-Lib](https://github.com/tgfb/cli-lib) 🚧
+  
 </p>
 <br>
 
