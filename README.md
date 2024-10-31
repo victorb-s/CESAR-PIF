@@ -2,7 +2,7 @@
 
 <p align="justify">
   
-  Projeto em desenvolvimento, utilizando do [CLI-Lib](https://github.com/tgfb/cli-lib) 🚧
+  Nosso projeto, uma adaptação do famoso "jogo da cobrinha" para C, conta com várias de suas funcionalidades, ao pressionar as teclas WASD, ou os direcionais de setas setas do teclado, é possível direcionar a movimentação da cobrinha, sendo a tecla W para cima, A para esquerda, S para baixo e D para direita. A cobrinha deve buscar os pontos que surgem pela tela, e que também a fazem crescer, mas esse crescimento é perigoso, pois caso ela bata em si mesma, o jogador perde. Um dos diferencias para o jogo original é a derrota caso o usuário encoste nas bordas do jogo!
   
 </p>
 <br>
