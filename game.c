@@ -1,128 +1,158 @@
-#include<stdio.h>
-#include<stdlib.h> //função srand() e system()
-#include<windows.h> //função SetConsoleCursorPosition()
-#include<conio.h> //função getch() e kbhit()
-#include<time.h> //função rand()
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <conio.h>
+#include <time.h>
 
-int c[300][2], ponto = 1, cx = 2, cy = 2,comida[2], velo = 150;
+typedef struct{
+    int x, y;
+} Ponto;
+
+typedef struct{
+    Ponto *corpo;
+    int tamanho;
+    int capacidade;
+    int velocidade;
+} Cobra;
+
+typedef struct{
+    Ponto posicao;
+} Comida;
 
 void moverCursor(int x, int y){
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), (COORD){x,y});
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), (COORD){x, y});
 }
-
-void exibirDesenho(){
-    for(int i = 0; i < ponto; i++){
-        moverCursor(c[i][0], c[i][1]);
-        printf("%c",219);
+void exibirCobra(Cobra *cobra){
+    for (int i = 0; i < cobra->tamanho; i++){
+        moverCursor(cobra->corpo[i].x, cobra->corpo[i].y);
+        printf("%c", 219);
     }
 }
-
-void upPositionCobra(){
-    moverCursor(c[ponto][0],c[ponto][1]);
-    printf(" ");
-    for(int i = ponto; i > 0; i--){
-    c[i][0] = c[i - 1][0];
-    c[i][1] = c[i - 1][1];
+void limparCobra(Cobra *cobra){
+    for (int i = 0; i < cobra->tamanho; i++){
+        moverCursor(cobra->corpo[i].x, cobra->corpo[i].y);
+        printf(" ");
     }
 }
-
-int verificarBatidaNoCorpo(){
-    int retorno = 0;
-    for(int i = 1; i < ponto; i++){
-        if(cx == c[i][0] && cy == c[i][1]){
-            retorno = 1;
+void atualizarPosicaoCobra(Cobra *cobra){
+    for (int i = cobra->tamanho - 1; i > 0; i--){
+        cobra->corpo[i] = cobra->corpo[i - 1];
+    }
+}
+int verificarBatidaNoCorpo(Cobra *cobra){
+    for (int i = 1; i < cobra->tamanho; i++) {
+        if (cobra->corpo[0].x == cobra->corpo[i].x && cobra->corpo[0].y == cobra->corpo[i].y){
+            return 1;
         }
     }
-    return retorno;
+    return 0;
 }
-
-void gerarComida(){
-    moverCursor(comida[0],comida[1]);
+void gerarComida(Comida *comida){
+    moverCursor(comida->posicao.x, comida->posicao.y);
     printf(" ");
     srand(time(NULL));
-    comida[0] = (rand() % 48) + 1;
-    comida[1] = (rand() % 18) + 1;
-    moverCursor(comida[0], comida[1]);
-    printf("%c", 4); //mostra a comida na posição que é gerada
-
+    comida->posicao.x = (rand() % 48) + 1;
+    comida->posicao.y = (rand() % 18) + 1;
+    moverCursor(comida->posicao.x, comida->posicao.y);
+    printf("%c", 4);
+}
+void desenharCampo() {
+    for (int i = 0; i < 50; i++){
+        moverCursor(i, 0);
+        printf("%c", 219);
+        Sleep(5);
+    }
+    for (int i = 0; i < 20; i++){
+        moverCursor(50, i);
+        printf("%c", 219);
+        Sleep(5);
+    }
+    for (int i = 50; i >= 0; i--){
+        moverCursor(i, 20);
+        printf("%c", 219);
+        Sleep(5);
+    }
+    for (int i = 20; i >= 0; i--){
+        moverCursor(0, i);
+        printf("%c", 219);
+        Sleep(5);
+    }
+}
+void inicializarCobra(Cobra *cobra){
+    cobra->capacidade = 5;
+    cobra->tamanho = 1;
+    cobra->velocidade = 150;
+    cobra->corpo = (Ponto*) malloc(cobra->capacidade * sizeof(Ponto));
+    cobra->corpo[0].x = 2;
+    cobra->corpo[0].y = 2;
+}
+void aumentarCobra(Cobra *cobra){
+    if (cobra->tamanho == cobra->capacidade){
+        cobra->capacidade *= 2;
+        cobra->corpo = (Ponto*) realloc(cobra->corpo, cobra->capacidade * sizeof(Ponto));
+    }
+    cobra->tamanho++;
 }
 
-int main(){
-    system("cls");//Explicação lá em baixo
+void liberarCobra(Cobra *cobra){
+    free(cobra->corpo);
+}
+
+int main() {
+    system("cls");
+    Cobra cobra;
+    Comida comida = {{0, 0}};
+    inicializarCobra(&cobra);
     int perdeu = 0;
-    char tecla;
+    char tecla = 'd';
+    desenharCampo();
+    gerarComida(&comida);
+    exibirCobra(&cobra);
 
-    for(int i = 0; i < 50; i++){//teto
+    while (perdeu == 0){
+        moverCursor(52, 2);
+        printf("    Pontos = %d\t", cobra.tamanho - 1);
+        moverCursor(52, 4);
+        printf("    Desenvolvido por grupo rua da moeda");
+        limparCobra(&cobra);
+        atualizarPosicaoCobra(&cobra);
 
-        moverCursor(i,0);
-        printf("%c", 219);
-        Sleep(5);//vai pausar o jogo por 5 milissegundos pra ficar mais natural o game
+        if (tecla == 'w' || tecla == 'W' || tecla == 72){
+            cobra.corpo[0].y--;
+            if (cobra.corpo[0].y == 0) break;
+        }
+        if (tecla == 's' || tecla == 'S' || tecla == 80){
+            cobra.corpo[0].y++;
+            if (cobra.corpo[0].y == 20) break;
+        }
+        if (tecla == 'a' || tecla == 'A' || tecla == 75){
+            cobra.corpo[0].x--;
+            if (cobra.corpo[0].x == 0) break;
+        }
+        if (tecla == 'd' || tecla == 'D' || tecla == 77){
+            cobra.corpo[0].x++;
+            if (cobra.corpo[0].x == 50) break;
+        }
+        if (cobra.corpo[0].x == comida.posicao.x && cobra.corpo[0].y == comida.posicao.y){
+            aumentarCobra(&cobra);
+            if (cobra.velocidade > 50){
+                cobra.velocidade -= 10;
+            }
+            gerarComida(&comida);
+        }
+        perdeu = verificarBatidaNoCorpo(&cobra);
+        exibirCobra(&cobra);
+        moverCursor(50, 20);
+        Sleep(cobra.velocidade);
 
-    }
-    for(int i = 0; i < 20; i++){//parede da direita
-        moverCursor(50,i);
-        printf("%c",219);
-        Sleep(5);
-    }
-    for(int i = 50; i >= 0; i--){//chão
-        moverCursor(i,20);
-        printf("%c", 219);
-        Sleep(5);
-    }
-    for(int i = 20; i >= 0;i--){
-        moverCursor(0,i);
-        printf("%c", 219);
-        Sleep(5);
-
-    }
-    gerarComida();
-    exibirDesenho();
-    tecla = 'd'; // vai começar se movendo pra direita
-
-    while(perdeu == 0){
-    
-        moverCursor(52,2);
-        printf("Pontos = %d\t",ponto);
-        moverCursor(52,4);
-        printf("Desenvolvido por grupo rua da moeda");
-        c[0][0] = cx;
-        c[0][1] = cy;
-        
-        if(kbhit()){
+        if (kbhit()){
             tecla = getch();
         }
-        if(tecla == 'w' || tecla == 'W' || tecla == 72){
-            cy--; 
-            if( cy == 0) break;//Bateu em cima é f
-        }
-        if(tecla == 's' || tecla == 'S' || tecla == 80){
-            cy++; 
-            if( cy == 20) break;//Bateu em baixo é f
-        }
-        if(tecla == 'a' || tecla == 'A' || tecla == 75){
-            cx--;
-            if(cx == 0) break;//Bateu na esquerda é f
-        }
-        if(tecla == 'd' || tecla == 'D' || tecla == 77){
-            cx++;
-            if(cx == 50) break;//Bateu na direita é f
-        }
-        if(cx == comida[0] && cy == comida[1]){//se a cobra comeu
-            ponto++;
-            if(velo > 50){
-                velo -= 10; // a velocidade cai pq se não fica tenso pra jogar com ela qnd ficar grande
-            }
-            gerarComida();
-
-        }
-        perdeu = verificarBatidaNoCorpo();
-        upPositionCobra();
-        exibirDesenho();
-        moverCursor(50,20);
-        Sleep(velo);
-
     }
-    system("cls");//quando perde o sistema ja limpa o console no automático
-    printf("Você perdeu!!!!!! e sua pontuação foi %d \n",ponto);
+
+    system("cls");
+    printf("Game over!!!!!! e seus pontos foram %d\n", cobra.tamanho - 1);
     system("pause");
+    liberarCobra(&cobra);
+    return 0;
 }
