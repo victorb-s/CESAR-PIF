@@ -23,8 +23,9 @@ typedef struct{
 } Jogo;
 
 void inicializarComida(Jogo *jogo){
-    jogo->comida.x = rand() % WIDTH;
-    jogo->comida.y = rand() % HEIGHT;
+    srand(time(NULL));
+    jogo->comida.x = (rand() % 58) + 1;
+    jogo->comida.y = (rand() % 28) + 1;
 }
 
 void inicializarCobra(Cobra *cobra){
@@ -37,8 +38,7 @@ void inicializarCobra(Cobra *cobra){
     }
 }
 
-void inicializarJogo(Cobra *cobra, Jogo *jogo, int *pontos_jogo){
-    pontos_jogo = 0;
+void inicializarJogo(Cobra *cobra, Jogo *jogo){
     inicializarCobra(cobra);
     inicializarComida(jogo);
 }
@@ -90,12 +90,14 @@ void desenharJogo(Cobra *cobra, Jogo *jogo, int *pontos_jogo) {
 
 void identificarColisao(Cobra *cobra, int *pontos_jogo, Posicao *cabeca_cobra){
     if(cabeca_cobra->x < 0 || cabeca_cobra->x >= WIDTH || cabeca_cobra->y < 0 || cabeca_cobra->y >= HEIGHT){
+        screenClear();
         printf("\nJogo finalizado! Sua pontuação foi de: %d, parabéns!\n", *pontos_jogo);
         exit(0);
     }
 
     for(int i = 0; i < cobra->tamanho_cobra; i++){
         if(cabeca_cobra->x == cobra->corpo_cobra[i].x && cabeca_cobra->y == cobra->corpo_cobra[i].y){
+            screenClear();
             printf("\nVocê colidiu com o próprio corpo, perdeu! Pontuação final: %d\n", *pontos_jogo);
             exit(0);
         }
@@ -140,24 +142,28 @@ void atualizarCobra(Cobra *cobra, Jogo *jogo, int *pontos_jogo){
 void definirDirecaoCobra(int tecla, Cobra *cobra) {
     switch(tecla){
     case 'w':
+    case 'W':
         if(cobra->direcao_cobra != 'D'){
             cobra->direcao_cobra = 'U';
         }
         break;
 
     case 's':
+    case 'S':
         if(cobra->direcao_cobra != 'U'){
             cobra->direcao_cobra = 'D';
         }
         break;
 
     case 'a':
+    case 'A':
         if(cobra->direcao_cobra != 'R'){
             cobra->direcao_cobra = 'L';
         }
         break;
 
     case 'd':
+    case 'D':
         if(cobra->direcao_cobra != 'L'){
             cobra->direcao_cobra = 'R';
         }
@@ -189,7 +195,7 @@ int main() {
     keyboardInit();
     timerInit(150);
     inicializarComida(&jogo);
-    inicializarJogo(&cobra, &jogo, &pontos_jogo);
+    inicializarJogo(&cobra, &jogo);
     desenharJogo(&cobra, &jogo, &pontos_jogo);
     executarJogo(tecla, &cobra, &jogo, &pontos_jogo);
     keyboardDestroy();
