@@ -53,6 +53,7 @@ void executarJogo(int tecla, Cobra *cobra, Jogo *jogo, int *pontos_jogo){
         }
 
         if (timerTimeOver() == 1){
+            screenClear();
             atualizarCobra(cobra, jogo, pontos_jogo);
             iniciarQuadradoDoJogo(cobra, jogo, pontos_jogo);
         }
