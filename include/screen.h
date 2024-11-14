@@ -70,6 +70,9 @@ static inline void screenHomeCursor()
     printf("%s%s", ESC, HOMECURSOR);
 }
 
+void screenMove(int x, int y);
+void screenPrintChar(char c);
+
 /**
  * Show the cursor
 */

@@ -8,7 +8,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-#include "keyboard.h"
+#include "../include/keyboard.h"
 
 static struct termios initialSettings, newSettings;
 static int peekCharacter;
@@ -37,19 +37,19 @@ int keyhit()
     int nread;
 
     if (peekCharacter != -1) return 1;
-    
+
     newSettings.c_cc[VMIN]=0;
     tcsetattr(0, TCSANOW, &newSettings);
     nread = read(0,&ch,1);
     newSettings.c_cc[VMIN]=1;
     tcsetattr(0, TCSANOW, &newSettings);
-    
+
     if(nread == 1) 
     {
         peekCharacter = ch;
         return 1;
     }
-    
+
     return 0;
 }
 
