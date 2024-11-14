@@ -2,19 +2,50 @@
 
 <p align="justify">
   
-  Nosso projeto, uma adaptação do famoso "jogo da cobrinha" para C, conta com várias de suas funcionalidades, ao pressionar as teclas W (cima) A (esquerda) S (baixo) D (direita), ou os direcionais do teclado, as famosas setinhas, é possível direcionar a movimentação da cobrinha, sendo a tecla W para cima, A para esquerda, S para baixo e D para direita.
-
-A cobrinha deve buscar as comidinhas que surgem pela tela, as quais aumentam a pontuação do jogador e que também a fazem crescer, mas esse crescimento é perigoso, pois caso ela bata em si mesma, o jogador perde. Um dos diferencias para o jogo original é a derrota caso o usuário encoste nas bordas do jogo!
+  Nosso projeto, uma adaptação do famoso "jogo da cobrinha", que carinhosamente nomeamos de Byte Snake, reprogramado para C, conta com várias de suas funcionalidades! A cobrinha deve buscar as comidinhas que surgem pela tela, as quais aumentam a pontuação do jogador e que também a fazem crescer, mas esse crescimento é perigoso, pois caso ela bata em si mesma, o jogador perde. Um dos diferencias para o jogo original é a derrota caso o usuário encoste nas bordas do jogo!
   
 </p>
 <br>
 
+## 🧿 Tecnologias Utilizadas
+
 - C;
 - cli-lib;
 
-<div style="display: inline_block"><br>
-  <!--img align="center" alt="React" heigth="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"-->
-</div>
+<br>
+
+## 🕹️ Como instalar e jogar
+
+1. Clone os arquivos do repositório em uma pasta vazia utilizando o comando:
+  ```bash
+  git clone https://github.com/victorb-s/CESAR-PIF.git
+  ```
+
+2. Entre na pasta com o comando:
+   ```bash
+   cd ./CESAR-PIF
+   ```
+
+3. Compile o jogo pelo terminal inserindo:
+   ```bash
+   $ gcc ./src/*.c -I./include -o jogo
+   ```
+
+4. Por fim, apenas execute o jogo pelo terminal utilizando:
+   ```bash
+   ./jogo
+   ```
+
+<br>
+
+### Controles:
+
+```W```: Cima<br>
+```A```: Esquerda<br>
+```S```: Baixo<br>
+```D```: Direita
+
+<br>
 
 ## 🌐 Autores
 ---
