@@ -2,7 +2,9 @@
 
 <p align="justify">
   
-  Nosso projeto, uma adaptação do famoso "jogo da cobrinha", que carinhosamente nomeamos de Byte Snake, reprogramado para C, conta com várias de suas funcionalidades! A cobrinha deve buscar as comidinhas que surgem pela tela, as quais aumentam a pontuação do jogador e que também a fazem crescer, mas esse crescimento é perigoso, pois caso ela bata em si mesma, o jogador perde. Um dos diferencias para o jogo original é a derrota caso o usuário encoste nas bordas do jogo!
+  Nosso projeto, uma adaptação do famoso "jogo da cobrinha", que carinhosamente nomeamos de Byte Snake, reprogramado para C, conta com várias de suas funcionalidades! A cobrinha deve buscar as comidinhas que surgem pela tela, as quais aumentam a pontuação do jogador e que também a fazem crescer, mas esse crescimento é perigoso, pois caso ela bata em si mesma, o jogador perde. 
+
+  Caso o usuário ultrapasse uma das bordas do jogo, ele reaparece na borda inversa, exemplo, caso o usuário ultrapasse a borda de cima, ele reaparecerá na borda oposta, neste caso, a borda de baixoç
   
 </p>
 <br>
